@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+  <div>
+    <video autoplay playsinline id='player'></video>
+  </div>
+  <div>
+    <button id='record'>Start Record</button>
+    <button id='recplay' disabled>Play</button>
+    <button id='download' disabled>Download</button>
+  </div>
+  <div>
+    <video playsinline id='recplayer'></video>
+  </div>
+
+  <script src='../libs/adapter-latest.js'></script>
+  <script src='../libs/socket.io.js'></script>
+  <script src='./index.js'></script>
+</body>
+</html>
