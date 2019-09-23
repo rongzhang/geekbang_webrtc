@@ -10,15 +10,22 @@
   <h1>Realtime communication with WebRTC </h1>
   <video autoplay playsinline></video>
   <script type="text/javascript">
-    var p = navigator.mediaDevices.getUserMedia({
+    var localVideo = document.querySelector('video');
+
+    function getLocalMediaStream(mediaStream) {
+      localVideo.srcObject = mediaStream;
+    }
+
+    function handleLocalMediaStreamError(error) {
+      alert('navigator.getUserMedia error: ' + error.toString());
+    }
+
+    navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true,
-    });
-
-    p.then(function(data) {
-    }).catch(function(e) {
-      console.error('error', e);
     })
+    .then(getLocalMediaStream)
+    .catch(handleLocalMediaStreamError);
   </script>
 </body>
 </html>
