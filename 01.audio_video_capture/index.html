@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>音视频采集</title>
+</head>
+<body>
+  <h1>Realtime communication with WebRTC </h1>
+  <video autoplay playsinline></video>
+  <script type="text/javascript">
+    var p = navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
+
+    p.then(function(data) {
+    }).catch(function(e) {
+      console.error('error', e);
+    })
+  </script>
+</body>
+</html>
