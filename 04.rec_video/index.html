@@ -16,7 +16,7 @@
     var mediaStream;
 
     function getLocalMediaStream(stream) {
-      mediaStream = mediaStream;
+      mediaStream = stream;
     }
 
     function handleLocalMediaStreamError(error) {
@@ -52,7 +52,7 @@
       }
 
       try {
-        mediaRecorder = new MediaRecorder(stream, options);
+        mediaRecorder = new MediaRecorder(mediaStream, options);
       } catch(e) {
         alert('Failed to create MediaRecorder:' +  e.toString());
         return;
