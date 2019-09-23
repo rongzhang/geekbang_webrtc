@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Take Picture</title>
+  <style>
+    video,
+    canvas {
+      width: 320px;
+      height: 240px;
+    }
+
+    .none {
+      filter: none;
+    }
+
+    .blur {
+      filter: blur(3px);
+    }
+
+    .grayscale {
+      filter: grayscale(1);
+    }
+
+    .invert {
+      filter: invert(1);
+    }
+
+    .sepia {
+      filter: sepia(1);
+    }
+  </style>
+</head>
+<body>
+  <video autoplay palysinline id='player'></video>
+  <button id='TakePhoto'>Take</button>
+  <button id='save'>Save</button>
+  <canvas id='picture'></canvas>
+  <select id="filter">
+    <option value="none">None</option>
+    <option value="blur">Blur</option>
+    <option value="grayscale">Grayscale</option>
+    <option value="invert">Invert</option>
+    <option value="sepia">Sepia</option>
+  </select>
+  <script type='text/javascript'>
+    (function() {
+      var videoplay = document.querySelector('video#player');
+      var picture = document.querySelector('canvas#picture');
+      picture.width = 640;
+      picture.height = 480;
+
+      function getMediaStream(stream) {
+        videoplay.srcObject = stream;
+      }
+
+      function handleError(err) {
+        alert('getUserMedia error:' + err.toString());
+      }
+
+      var constraints = {
+        video: {
+          width: 1280,
+          height: 720,
+          frameRate: 15,
+        },
+        audio: false,
+      };
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(getMediaStream)
+        .catch(handleError);
+
+      function drawImage() {
+        picture.getContext('2d').drawImage(videoplay, 0, 0, picture.width, picture.height);
+      }
+
+      function downLoad(url) {
+        var oA = document.createElement('a');
+        oA.download = 'photo';
+        oA.href = url;
+        document.body.appendChild(oA);
+        oA.click();
+        oA.remove();
+      }
+
+      document.querySelector('button#TakePhoto').onclick = function() {
+        drawImage();
+      }
+
+      document.querySelector('button#save').onclick = function() {
+        downLoad(picture.toDataURL('image/jpeg'));
+      }
+
+      document.querySelector('select#filter').onchange = function(e) {
+        picture.className = e.target.value;
+      }
+    })();
+  </script>
+</body>
+</html>
