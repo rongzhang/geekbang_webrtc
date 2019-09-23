@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<body>
+  <video id='recvideo'></video>
+  <button id='record'>Start Record</button>
+  <button id='recplay'>Play Record</button>
+  <button id='download'>Download Record</button>
+  <script type="text/javascript">
+    var recvideo = document.querySelector('video#recvideo');
+    var mediaStream;
+
+    function getLocalMediaStream(stream) {
+      mediaStream = mediaStream;
+    }
+
+    function handleLocalMediaStreamError(error) {
+      alert('navigator.getUserMedia error: ' + error.toString());
+    }
+
+    navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    })
+    .then(getLocalMediaStream)
+    .catch(handleLocalMediaStreamError);
+
+    var buffer;
+    var mediaRecorder;
+
+    function handleDataAvailable(e) {
+      if (e && e.data && e.data.size > 0) {
+        buffer.push(e.data);
+      }
+    }
+
+    function startRecord() {
+      buffer = [];
+
+      var options = {
+        mimeType: 'video/webm;codecs=vp8'
+      };
+
+      if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+        alert(options.mimeType + ' is not supported');
+        return;
+      }
+
+      try {
+        mediaRecorder = new MediaRecorder(stream, options);
+      } catch(e) {
+        alert('Failed to create MediaRecorder:' +  e.toString());
+        return;
+      }
+
+      mediaRecorder.ondataavailable = handleDataAvailable;
+      mediaRecorder.start(10);
+    }
+
+    function playRecord() {
+      var blob = new Blob(buffer, { type: 'video/webm' });
+      recvideo.src = window.URL.createObjectURL(blob);
+      recvideo.srcObject = null;
+      recvideo.controls = true;
+      recvideo.play();
+    }
+
+    function downloadRecord() {
+      var blob = new Blob(buffer, { type:  'video/webm' });
+      var url = window.URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.style.display = 'none';
+      a.download = 'aaa.webm';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    document.querySelector('button#record').onclick = startRecord;
+    document.querySelector('button#recplay').onclick = playRecord;
+    document.querySelector('button#download').onclick = downloadRecord;    
+  </script>
+</body>
+</html>
