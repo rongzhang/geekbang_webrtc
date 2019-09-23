@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id='infos'></div>
+  <script type='text/javascript'>
+    (function() {
+      var domInfos = document.getElementById('infos');
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+        alert('enumerateDevices() not supported.');
+        return;
+      }
+
+      navigator.mediaDevices.enumerateDevices()
+        .then(function(deviceInfos) {
+          domInfos.innerText = JSON.stringify(deviceInfos);
+        })
+        .catch(function(err) {
+          alert(err.toString());
+        })
+    })();
+  </script>
+</body>
+</html>
