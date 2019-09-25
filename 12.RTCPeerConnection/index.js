@@ -61,7 +61,7 @@
 
   function handleConnection(event) {
     const peerConnection = event.target;
-    const iceCandidate = event.candiate;
+    const iceCandidate = event.candidate;
 
     if (iceCandidate) {
       const newIceCandidate = new RTCIceCandidate(iceCandidate);
