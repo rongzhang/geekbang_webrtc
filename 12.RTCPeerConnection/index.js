@@ -14,6 +14,7 @@
   const startButton = document.getElementById('startButton');
   const callButton = document.getElementById('callButton');
   const hangupButton = document.getElementById('hangupButton');
+  const messageList = document.getElementById('messages');
 
   callButton.disabled = true;
   hangupButton.disabled = true;
@@ -31,6 +32,11 @@
   function trace(text) {
     text = text.trim();
     const now = (window.performance.now() / 1000).toFixed(3);
+    const msg = `${now} ${text}`;
+
+    const li = document.createElement('li');
+    li.innerText = msg;
+    messageList.appendChild(li);
 
     console.log(now, text);
   }
@@ -71,7 +77,7 @@
 
   function handleConnectionChange(event) {
     const peerConnection = event.target;
-    console.log('ICE state change event: ', event);
+    trace('ICE state change event: ' + event);
     trace(`${getPeerName(peerConnection)} ICE state: ${peerConnection.iceConnectionState}.`);
   }
 
