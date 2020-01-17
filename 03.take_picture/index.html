@@ -16,6 +16,7 @@
       filter: none;
     }
 
+    /*
     .blur {
       filter: blur(3px);
     }
@@ -31,6 +32,7 @@
     .sepia {
       filter: sepia(1);
     }
+    */
   </style>
 </head>
 <body>
@@ -47,6 +49,8 @@
   </select>
   <script type='text/javascript'>
     (function() {
+      var filter;
+
       var videoplay = document.querySelector('video#player');
       var picture = document.querySelector('canvas#picture');
       picture.width = 640;
@@ -73,7 +77,25 @@
         .catch(handleError);
 
       function drawImage() {
-        picture.getContext('2d').drawImage(videoplay, 0, 0, picture.width, picture.height);
+        var ctx = picture.getContext('2d');
+
+        switch (filter) {
+          case "blur":
+            ctx.filter = 'blur(3px)';
+            break;
+          case "grayscale":
+            ctx.filter = 'grayscale(1)';
+            break;
+          case "invert":
+            ctx.filter = 'invert(1)';
+            break;
+          case "sepia":
+            ctx.filter = 'sepia(1)';
+            break;
+          default:
+            break;
+        }
+        ctx.drawImage(videoplay, 0, 0, picture.width, picture.height);
       }
 
       function downLoad(url) {
@@ -94,7 +116,9 @@
       }
 
       document.querySelector('select#filter').onchange = function(e) {
-        picture.className = e.target.value;
+        //picture.className = e.target.value;
+        filter = e.target.value;
+        drawImage();
       }
     })();
   </script>
